@@ -97,8 +97,6 @@ class TestLib(threading.Thread):
                             print "pechalka"
                             # self.log("Core msg parsing error:\n" + str(e))
                         else:
-                            print "handle"
-                            print coreMsg
                             self.handleCoreMsg(coreMsg=coreMsg)
 
     def handleCoreMsg(self, coreMsg):
