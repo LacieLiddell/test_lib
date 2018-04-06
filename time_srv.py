@@ -1,10 +1,4 @@
-import sys
 import time
-
-def quack():
-    print "quack"
-
-
 
 class TimeSrv():
     """
@@ -15,4 +9,3 @@ class TimeSrv():
 
     def sleep(self, t):
         return time.sleep(t)
-

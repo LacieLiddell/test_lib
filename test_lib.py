@@ -1,32 +1,34 @@
-import Queue
 import socket
 import sys
-import time
-import traceback
 import  select
 import  threading
 import  Queue
 
+from time_srv import *
+
+# append many paths...
 sys.path.append("../api")
 sys.path.append("../api/py_lib/bsc")
 sys.path.append("../api/py_lib/cstruct")
 sys.path.append("../api/core/")
 sys.path.append("../api/py_lib/msg/msg")
 sys.path.append("../api/TPO/Core.i3/src")
+# ... and import from this paths
 import msg_parser
 import bsc
 import info_ch_params
 
+# some constants
 CORE_VER = 0x00000001  # Core version.
 CORE_PORT = 50004  # TCP/IP port for core.
-SW_VER_TYPE_CORE = 0x01
-CORE_REQ_TIMEOUT = 20.0
+SW_VER_TYPE_CORE = 0x01 # const to request core version
+CORE_REQ_TIMEOUT = 20.0 # max time to await confirm
 
-sys.path.insert(0, "dir_test")
-from duck import *
+
 
 class TestLib(threading.Thread):
     def __init__(self):
+        # inherits this class for multithreading
         threading.Thread.__init__(self)
         self.timeSrv = TimeSrv()
         self.bscEngine = bsc.Bsc()
@@ -62,7 +64,7 @@ class TestLib(threading.Thread):
         """
         self.stopEvent.set()
 
-    ####################################################################################################################
+
     def waitForStop(self):
         """
         """
@@ -71,11 +73,16 @@ class TestLib(threading.Thread):
 
 
     def run(self):
+        """
+        redefined method of class Thread. it called then starts second thread.
+        connect to core and launch loop (while not stopped) to get and handle messages from core
+        """
+        #  init socket and connect to core
         self.sckt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # try:
         self.sckt.connect(("localhost", CORE_PORT))
-        print 'connect'
         while not self.stopEvent.isSet():
+            # await for message. if get data or pass 10 msec - try to get this message and parse it
             rdSockList, wrSockList, excList = select.select([self.sckt], [], [], 0.01)
             if len(rdSockList):
                 try:
@@ -97,10 +104,12 @@ class TestLib(threading.Thread):
                             print "pechalka"
                             # self.log("Core msg parsing error:\n" + str(e))
                         else:
+                            # if all is ok - parse message
                             self.handleCoreMsg(coreMsg=coreMsg)
 
     def handleCoreMsg(self, coreMsg):
         """
+        handle message from core. this thing scare me, but looks not very complicated
         """
         if (coreMsg.isType(self.cliCoreProtoMsgMod.GetSwVersionConf) or
                 coreMsg.isType(self.cliCoreProtoMsgMod.OpenTkpaConnConf) or
@@ -202,8 +211,11 @@ class TestLib(threading.Thread):
             print "Unknown confirm or indication:\n" + str(coreMsg)
             # self.log("Unknown confirm or indication:\n" + str(coreMsg))
 
+
     def getSwVersion(self, verType):
         """
+        get core version. it's take request type (SW_VER_TYPE_CORE = 0x01), then send through socket and get confirm,
+        parse it and return version
         """
         req = self.cliCoreProtoMsgMod.GetSwVersionReq(verType=self.cliCoreProtoMsgMod.SwVerType(verType))
         print req
@@ -215,17 +227,25 @@ class TestLib(threading.Thread):
         print  ver
         return ver
 
+
     def sendCoreReq(self, coreReq):
         """
+        this method just send command to core.
         """
+        # parse (deparse?.. it's serialize. just serialize) message
         s = self.bscEngine.makeMsg(self.cliCoreProtoMsgParser.serialize(coreReq))
+        # send message through socket
         self.sckt.sendall(s)
         self.coreConf = None
+        # start clock
         self.reqStartTime = self.timeSrv.clock()
 
 
     def getCoreConf(self, confType):
         """
+        this method return request from core. while data is empty - infinitive loop and await for data.
+        if time ends (imeSrv = 20 sec) - exception. if status != ok, then another exception.
+        if all is ok - return confirm
         """
         while True:
             if self.coreConf != None:
@@ -234,7 +254,6 @@ class TestLib(threading.Thread):
                     break
                 else:
                     print "Core confirm status error\n" + str(self.coreConf)
-
             if (self.timeSrv.clock() - self.reqStartTime) > CORE_REQ_TIMEOUT:
                 print "Core request timeout\n" + str(self.coreReq)
         return self.coreConf
@@ -242,9 +261,12 @@ class TestLib(threading.Thread):
 
 
 if __name__ == '__main__':
+    # create and start second thread for connection to core
     testLib = TestLib()
     testLib.start()
+    # delay. it need to init sockets
     time.sleep(0.5)
+    # there is some commands to tkpa
     testLib.getSwVersion(SW_VER_TYPE_CORE)
 
 
