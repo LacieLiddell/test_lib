@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180407 16:59:42.593" generator="Robot 3.0.2 (Python 2.7.10 on win32)">
+<suite source="C:\Users\lacie\PycharmProjects\test_lib\getCoreVersionTest.rst" id="s1" name="getCoreVersionTest">
+<test id="s1-t1" name="Check core version">
+<kw type="setup" name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>connect</arg>
+</arguments>
+<status status="PASS" endtime="20180407 16:59:42.701" starttime="20180407 16:59:42.700"></status>
+</kw>
+<kw name="Connect">
+<kw name="Connect And Listen Core" library="testLib">
+<doc>needs like test library method. test suite file call this to connect to core and start second thread,</doc>
+<assign>
+<var>${getConfirm}</var>
+</assign>
+<msg timestamp="20180407 16:59:43.342" level="INFO">connect
+Get SW version request:
+	verType: SW_VER_TYPE_CORE
+
+send request
+get request
+65553</msg>
+<msg timestamp="20180407 16:59:43.342" level="INFO">${getConfirm} = 65553</msg>
+<status status="PASS" endtime="20180407 16:59:43.343" starttime="20180407 16:59:42.702"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${getConfirm}</arg>
+</arguments>
+<status status="PASS" endtime="20180407 16:59:43.345" starttime="20180407 16:59:43.343"></status>
+</kw>
+<status status="PASS" endtime="20180407 16:59:43.346" starttime="20180407 16:59:42.701"></status>
+</kw>
+<kw type="teardown" name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>end</arg>
+</arguments>
+<status status="PASS" endtime="20180407 16:59:43.350" starttime="20180407 16:59:43.348"></status>
+</kw>
+<tags>
+<tag>smoke</tag>
+</tags>
+<status status="PASS" endtime="20180407 16:59:43.351" critical="yes" starttime="20180407 16:59:42.698"></status>
+</test>
+<status status="PASS" endtime="20180407 16:59:43.357" starttime="20180407 16:59:42.598"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+<stat fail="0" pass="1">smoke</stat>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="getCoreVersionTest" pass="1">getCoreVersionTest</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

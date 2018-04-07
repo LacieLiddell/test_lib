@@ -7,6 +7,7 @@ import  Queue
 from time_srv import *
 
 # append many paths...
+sys.path.append("C:\Users\lacie\PycharmProjects\\test_lib\\testLib.py")
 sys.path.append("../api")
 sys.path.append("../api/py_lib/bsc")
 sys.path.append("../api/py_lib/cstruct")
@@ -26,7 +27,7 @@ CORE_REQ_TIMEOUT = 20.0 # max time to await confirm
 
 
 
-class TestLib(threading.Thread):
+class test_lib(threading.Thread):
     def __init__(self):
         # inherits this class for multithreading
         threading.Thread.__init__(self)
@@ -81,6 +82,7 @@ class TestLib(threading.Thread):
         self.sckt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # try:
         self.sckt.connect(("localhost", CORE_PORT))
+        print "connect"
         while not self.stopEvent.isSet():
             # await for message. if get data or pass 10 msec - try to get this message and parse it
             rdSockList, wrSockList, excList = select.select([self.sckt], [], [], 0.01)
@@ -212,7 +214,7 @@ class TestLib(threading.Thread):
             # self.log("Unknown confirm or indication:\n" + str(coreMsg))
 
 
-    def getSwVersion(self, verType):
+    def get_sw_version(self, verType):
         """
         get core version. it's take request type (SW_VER_TYPE_CORE = 0x01), then send through socket and get confirm,
         parse it and return version
@@ -259,14 +261,27 @@ class TestLib(threading.Thread):
         return self.coreConf
 
 
+def connect_and_listen_core():
+    '''
+    needs like test library method. test suite file call this to connect to core and start second thread,
+    because test suite file ignore __main__ method
+    '''
+    # create and start second thread for connection to core
+    testLib = test_lib()
+    testLib.start()
+    # delay. it need to init socket
+    time.sleep(0.5)
+    return testLib.get_sw_version(SW_VER_TYPE_CORE)
 
 if __name__ == '__main__':
-    # create and start second thread for connection to core
-    testLib = TestLib()
-    testLib.start()
-    # delay. it need to init sockets
-    time.sleep(0.5)
-    # there is some commands to tkpa
-    testLib.getSwVersion(SW_VER_TYPE_CORE)
+    connect_and_listen_core()
+    # # create and start second thread for connection to core
+    # testLib = test_lib()
+    # testLib.start()
+    # # delay. it need to init socket
+    # time.sleep(0.5)
+    # # there is some commands to tkpa
+    # testLib.get_sw_version(SW_VER_TYPE_CORE)
+
 
 

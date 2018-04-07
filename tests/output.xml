@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180407 00:07:22.248" generator="Robot 3.0.2 (Python 2.7.10 on win32)">
+<suite source="C:\Users\lacie\PycharmProjects\test_lib\tests\getCoreVersionTest.rst" id="s1" name="getCoreVersionTest">
+<test id="s1-t1" name="Check core version">
+<kw type="setup" name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>start</arg>
+</arguments>
+<status status="PASS" endtime="20180407 00:07:22.326" starttime="20180407 00:07:22.325"></status>
+</kw>
+<kw name="Get Core Version">
+<arguments>
+<arg>SW_VER_TYPE_CORE</arg>
+<arg>65553</arg>
+</arguments>
+<kw name="Get SW Version">
+<arguments>
+<arg>${expression}</arg>
+</arguments>
+<assign>
+<var>${expected} =</var>
+</assign>
+<msg timestamp="20180407 00:07:22.333" level="FAIL">No keyword with name 'Get SW Version' found.</msg>
+<status status="FAIL" endtime="20180407 00:07:22.333" starttime="20180407 00:07:22.333"></status>
+</kw>
+<status status="FAIL" endtime="20180407 00:07:22.334" starttime="20180407 00:07:22.327"></status>
+</kw>
+<kw type="teardown" name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>end</arg>
+</arguments>
+<status status="PASS" endtime="20180407 00:07:22.336" starttime="20180407 00:07:22.335"></status>
+</kw>
+<tags>
+<tag>smoke</tag>
+</tags>
+<status status="FAIL" endtime="20180407 00:07:22.336" critical="yes" starttime="20180407 00:07:22.324">No keyword with name 'Get SW Version' found.</status>
+</test>
+<status status="FAIL" endtime="20180407 00:07:22.338" starttime="20180407 00:07:22.254"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="0">Critical Tests</stat>
+<stat fail="1" pass="0">All Tests</stat>
+</total>
+<tag>
+<stat fail="1" pass="0">smoke</stat>
+</tag>
+<suite>
+<stat fail="1" id="s1" name="getCoreVersionTest" pass="0">getCoreVersionTest</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20180407 00:07:22.240" level="ERROR">Error in file 'C:\Users\lacie\PycharmProjects\test_lib\tests\getCoreVersionTest.rst': Non-existing setting ''.</msg>
+<msg timestamp="20180407 00:07:22.319" level="ERROR">Error in file 'C:\Users\lacie\PycharmProjects\test_lib\tests\getCoreVersionTest.rst': Importing test library 'C:\Users\lacie\PycharmProjects\test_lib\test_lib.py' failed: ImportError: No module named msg_parser
+Traceback (most recent call last):
+  File "C:\Users\lacie\PycharmProjects\test_lib\test_lib.py", line 18, in &lt;module&gt;
+    import msg_parser
+PYTHONPATH:
+  C:\WINDOWS\SYSTEM32\python27.zip
+  c:\python27\DLLs
+  c:\python27\lib
+  c:\python27\lib\plat-win
+  c:\python27\lib\lib-tk
+  c:\python27
+  c:\python27\lib\site-packages
+  C:\Users\lacie\PycharmProjects\test_lib\test_lib.py
+  ../api
+  ../api/py_lib/bsc
+  ../api/py_lib/cstruct
+  ../api/core/
+  ../api/py_lib/msg/msg
+  ../api/TPO/Core.i3/src</msg>
+</errors>
+</robot>
