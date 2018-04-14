@@ -18,6 +18,7 @@ sys.path.append("../api/TPO/Core.i3/src")
 import msg_parser
 import bsc
 import info_ch_params
+import msg_int_field
 
 # some constants
 CORE_VER = 0x00000001  # Core version.
@@ -27,7 +28,8 @@ CORE_REQ_TIMEOUT = 20.0 # max time to await confirm
 
 
 
-class test_lib(threading.Thread):
+
+class testLib(threading.Thread):
     def __init__(self):
         # inherits this class for multithreading
         threading.Thread.__init__(self)
@@ -108,6 +110,7 @@ class test_lib(threading.Thread):
                         else:
                             # if all is ok - parse message
                             self.handleCoreMsg(coreMsg=coreMsg)
+
 
     def handleCoreMsg(self, coreMsg):
         """
@@ -261,20 +264,80 @@ class test_lib(threading.Thread):
         return self.coreConf
 
 
+    def getAnalogTmi(self):
+        """
+        """
+        return self.analogTmi
+
+
+    def getSliKpaTmi(self):
+        """
+        """
+        return self.sliKpaTmi
+
+
+    def setBePower(self, on):
+        """
+        """
+        req = self.cliCoreProtoMsgMod.SetBePowerReq(on = msg_int_field.Uint16(on))
+        self.sendCoreReq(req)
+        self.getCoreConf(self.cliCoreProtoMsgMod.SetBePowerConf)
+
+
+    def writeFk(self, fk):
+        """
+        """
+        req = self.cliCoreProtoMsgMod.FkReq(fk = self.cliCoreProtoMsgMod.Fk(fk))
+        self.sendCoreReq(req)
+        self.getCoreConf(self.cliCoreProtoMsgMod.FkConf)
+
+
 def connect_and_listen_core():
     '''
     needs like test library method. test suite file call this to connect to core and start second thread,
     because test suite file ignore __main__ method
     '''
+    test_lib = connect()
+    ver = test_lib.get_sw_version(SW_VER_TYPE_CORE)
+    disconnect(test_lib)
+    return ver
+
+
+def check_em_power_supply():
+    """
+    this method check electronic module power supply. library method
+    """
+    test_lib = connect()
+    # test_lib.setBePower()
+    # need to know what is argument on
+    test_lib.getSliKpaTmi()
+    print 'getSliKpaTmi'
+    disconnect(test_lib)
+
+
+def test_inside_resources():
+    test_lib = connect()
+
+
+
+def connect():
     # create and start second thread for connection to core
-    testLib = test_lib()
-    testLib.start()
+    test_lib = testLib()
+    test_lib.start()
     # delay. it need to init socket
     time.sleep(0.5)
-    return testLib.get_sw_version(SW_VER_TYPE_CORE)
+    return test_lib
+
+
+def disconnect(test_lib):
+    time.sleep(0.5)
+    test_lib.stop()
+    test_lib.waitForStop()
+    print "stop"
 
 if __name__ == '__main__':
     connect_and_listen_core()
+    # check_em_power_supply()
     # # create and start second thread for connection to core
     # testLib = test_lib()
     # testLib.start()
