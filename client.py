@@ -4,9 +4,10 @@ import select
 import threading
 import Queue
 
-from time_srv import *
 
 # append many paths...
+import time
+
 sys.path.append("C:\Users\lacie\PycharmProjects\\test_lib\\client.py")
 sys.path.append("../api")
 sys.path.append("../api/py_lib/bsc")
@@ -14,13 +15,16 @@ sys.path.append("../api/py_lib/cstruct")
 sys.path.append("../api/core/")
 sys.path.append("../api/py_lib/msg/msg")
 sys.path.append("../api/TPO/Core.i3/src")
-# ... and import from this paths
+sys.path.append("some components/")
 import msg_parser
 import bsc
 import info_ch_params
 import msg_int_field
+import analog_tmi_params
+import sli_kpa_tmi_params
 
-from constats_table import *
+from time_srv import *
+from constants_table import *
 
 
 class client(threading.Thread):
@@ -105,6 +109,22 @@ class client(threading.Thread):
                             self.handleCoreMsg(coreMsg=coreMsg)
 
 
+    def connTkpa(self):
+        """
+        """
+        req = self.cliCoreProtoMsgMod.OpenTkpaConnReq()
+        print "conn tkpa"
+        print req
+        self.sendCoreReq(req)
+        self.getCoreConf(self.cliCoreProtoMsgMod.OpenTkpaConnConf)
+
+    def disconnTkpa(self):
+        """
+        """
+        req = self.cliCoreProtoMsgMod.CloseTkpaConnReq()
+        self.sendCoreReq(req)
+        self.getCoreConf(self.cliCoreProtoMsgMod.CloseTkpaConnConf)
+
     def handleCoreMsg(self, coreMsg):
         """
         handle message from core. this thing scare me, but looks not very complicated
@@ -112,31 +132,31 @@ class client(threading.Thread):
         if (coreMsg.isType(self.cliCoreProtoMsgMod.GetSwVersionConf) or
                 coreMsg.isType(self.cliCoreProtoMsgMod.OpenTkpaConnConf) or
                 coreMsg.isType(self.cliCoreProtoMsgMod.CloseTkpaConnConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetKpaModeConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.SetKpaModeConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.WriteMkoMsgConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.ReadMkoMsgConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.WriteMkoPkConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.SetBiZoneConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetBiZoneConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.SetArrConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetArrConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetDkpmPowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetDrivePowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.ReadBeReg16Conf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.WriteBeReg16Conf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetRefChPowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetDnpsPowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetDnpsConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.SetDnpsConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetSkvtPowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetKpaModeConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.SetKpaModeConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.WriteMkoMsgConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.ReadMkoMsgConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.WriteMkoPkConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.SetBiZoneConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetBiZoneConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.SetArrConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetArrConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetDkpmPowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetDrivePowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.ReadBeReg16Conf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.WriteBeReg16Conf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetRefChPowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetDnpsPowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetDnpsConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.SetDnpsConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetSkvtPowerConf) or
                 coreMsg.isType(self.cliCoreProtoMsgMod.SetBePowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.SetStrPowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetBpuPowerConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.SetCoreParamsConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetCoreParamsConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.FkConf) or
-                coreMsg.isType(self.cliCoreProtoMsgMod.GetStrHeatVoltConf)):
+                # coreMsg.isType(self.cliCoreProtoMsgMod.SetStrPowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetBpuPowerConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.SetCoreParamsConf) or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetCoreParamsConf) or
+                coreMsg.isType(self.cliCoreProtoMsgMod.FkConf)): #or
+                # coreMsg.isType(self.cliCoreProtoMsgMod.GetStrHeatVoltConf)):
 
             self.coreConf = coreMsg
 
@@ -196,13 +216,13 @@ class client(threading.Thread):
         #     # Handle MKO telemetry indication.
         #     self.handler_tmiMko(coreMsg)
         #
-        # elif coreMsg.isType(self.cliCoreProtoMsgMod.AnalogTmiInd):
-        #     # Handle analog telemetry indication.
-        #     self.handler_analogTmi(coreMsg)
-        #
-        # elif coreMsg.isType(self.cliCoreProtoMsgMod.SliKpaInd):
-        #     # Handle SlI Kpa telemetry indication.
-        #     self.handler_SliKpaTmi(coreMsg)
+        elif coreMsg.isType(self.cliCoreProtoMsgMod.AnalogTmiInd):
+            # Handle analog telemetry indication.
+            self.handler_analogTmi(coreMsg)
+
+        elif coreMsg.isType(self.cliCoreProtoMsgMod.SliKpaInd):
+            # Handle SlI Kpa telemetry indication.
+            self.handler_SliKpaTmi(coreMsg)
 
         else:
             # Unknown confirm or indication.
@@ -284,151 +304,90 @@ class client(threading.Thread):
         self.sendCoreReq(req)
         self.getCoreConf(self.cliCoreProtoMsgMod.FkConf)
 
+    ####################################################################################################################
 
 
-# def get_sw_version_test():
-#     '''
-#     needs like test library method. test suite file call this to connect to core and start second thread,
-#     because test suite file ignore __main__ method
-#     '''
-#     test_lib = connect()
-#     ver = test_lib.get_sw_version(SW_VER_TYPE_CORE)
-#     disconnect(test_lib)
-#     # return ver
-#
-#
-# def check_em_power_supply():
-#     """
-#     this method check electronic module power supply. library method
-#     """
-#     test_lib = connect()
-#     # 1 - on, 0 - off power
-#     test_lib.setBePower(POWER_ON)
-#     sliKpaTmi = test_lib.getSliKpaTmi()
-#     print 'getSliKpaTmi'
-#     disconnect(test_lib)
-#     return sliKpaTmi
-#
-#
-# def check_inside_resources():
-#     test_lib = connect()
-#     # TODO
-#     # FK_TMI1F23
-#     test_lib.writeFk(FK_TMI1F23)
-#     analogTmi = test_lib.getAnalogTmi()
-#     disconnect(test_lib)
-#     return analogTmi
-#
-#
-# # def check_bfk(fk):
-# #     # TODO
-# #     # 48 - FK_BFKCF48, 49 - FK_BFKSF49
-# #     test_lib = connect()
-# #     test_lib.writeFk(fk)
-# #     disconnect(test_lib)
-#
-#
-# # def check_vip_change(fk_init, fk_opposite):
-# #     # TODO - fk mast be an argumnt
-# #     # 1 - FK_VIP1F1, 3 - FK_VIP2F3
-# #     test_lib = connect()
-# #     test_lib.writeFk(fk_opposite)
-# #     test_lib.writeFk(fk_init)
-# #     disconnect(test_lib)
-#
-# def check_block_change(fk_init, fk_opposite):
-#     test_lib = connect()
-#     test_lib.writeFk(fk_opposite)
-#     test_lib.writeFk(fk_init)
-#     analogTmi = test_lib.getAnalogTmi()
-#     disconnect(test_lib)
-#     return analogTmi
-#
-#
-# def check_vip_turnoff(fk_opposite):
-#     # TODO. fk mast be an argument.then it can doing two tests between one
-#     # 2 - FK_VIP1NF2
-#     # and this method can take argument 4 - FK_VIP2NF4
-#     test_lib = connect()
-#     test_lib.setBePower(POWER_OFF)
-#     test_lib.writeFk(fk_opposite)
-#     test_lib.setBePower(POWER_ON)
-#     analogTmi = test_lib.getAnalogTmi()
-#     disconnect(test_lib)
-#     return analogTmi
-#
-#
-# # def check_bustr_change(fk_init, fk_opposite):
-# #     test_lib = connect()
-# #     # TODO: 54 - FK_BSTRF54, 55 - FK_BSTOF55
-# #     test_lib.writeFk(fk_opposite)
-# #     test_lib.writeFk(fk_init)
-# #     analogTmi = test_lib.getAnalogTmi()
-# #     disconnect(test_lib)
-# #     return analogTmi
-#
-#
-# # def check_bud_change(fk_init, fk_opposite):
-# #     test_lib = connect()
-# #     # TODO: 50 - FK_BUDRF50, 51 - FK_BUDOF51
-# #     test_lib.writeFk(fk_opposite)
-# #     test_lib.writeFk(fk_init)
-# #     analogTmi = test_lib.getAnalogTmi()
-# #     disconnect(test_lib)
-# #     return analogTmi
-#
-#
-# # def check_bpop_change(fk_init, fk_opposite):
-# #     test_lib = connect()
-# #     # TODO: 52 - FK_BOPRF52, 53 - FK_BOPOF53
-# #     test_lib.writeFk(fk_opposite)
-# #     test_lib.writeFk(fk_init)
-# #     analogTmi = test_lib.getAnalogTmi()
-# #     disconnect(test_lib)
-# #     return analogTmi
-#
-#
-# def check_change_mode():
-#     test_lib = connect()
-#     # TODO: 7 - FK_RRF7, 8 - FK_DRF8, 9 - FK_VOF9, 10 - FK_OOF10
-#     test_lib.writeFk(FK_RRF7)
-#     rrTmi = test_lib.getAnalogTmi()
-#     test_lib.writeFk(FK_DRF8)
-#     drTmi = test_lib.getAnalogTmi()
-#     test_lib.writeFk(FK_VOF9)
-#     voTmi = test_lib.getAnalogTmi()
-#     test_lib.writeFk(FK_DRF8)
-#     test_lib.getAnalogTmi()
-#     test_lib.writeFk(FK_VOF9)
-#     test_lib.getAnalogTmi()
-#     test_lib.writeFk(FK_OOF10)
-#     test_lib.getAnalogTmi()
-#     disconnect(test_lib)
-#
-#
-# # def check_laser_change(fk_init, fk_opposite):
-# #     test_lib = connect()
-# #     # TODO: 19 - VOF19, 20 - VO2F20
-# #     test_lib.writeFk(fk_opposite)
-# #     test_lib.writeFk(fk_init)
-# #     analogTmi = test_lib.getAnalogTmi()
-# #     disconnect(test_lib)
-# #     return analogTmi
-#
-#
-# def connect():
-#     # create and start second thread for connection to core
-#     test_lib = testLib()
-#     test_lib.start()
-#     # delay. it need to init socket
-#     time.sleep(0.5)
-#     return test_lib
-#
-#
-# def disconnect(test_lib):
-#     time.sleep(0.5)
-#     test_lib.stop()
-#     test_lib.waitForStop()
-#     print "stop"
+    def handler_analogTmi(self, coreMsg):
+        """
+        """
+        analogTmiParams = analog_tmi_params.AnalogTmiParams()
 
-# if __name__ == '__main__':
+        analogTmiParams["VIPVKLT1"] = int(coreMsg.getField("VIPVKLT1"))
+        analogTmiParams["VIPKZT2"] = int(coreMsg.getField("VIPKZT2"))
+        analogTmiParams["VIPPNT3"] = int(coreMsg.getField("VIPPNT3"))
+
+        analogTmiParams["STR1VKLT4"] = int(coreMsg.getField("STR1VKLT4"))
+        analogTmiParams["STR1KZT5"] = int(coreMsg.getField("STR1KZT5"))
+        analogTmiParams["STR1PNT6"] = int(coreMsg.getField("STR1PNT6"))
+
+        analogTmiParams["STR2VKLT7"] = int(coreMsg.getField("STR2VKLT7"))
+        analogTmiParams["STR2KZT8"] = int(coreMsg.getField("STR2KZT8"))
+        analogTmiParams["STR2PNT9"] = int(coreMsg.getField("STR2PNT9"))
+
+        analogTmiParams["PU1VKLT10"] = int(coreMsg.getField("PU1VKLT10"))
+        analogTmiParams["PU2VKLT11"] = int(coreMsg.getField("PU2VKLT11"))
+        analogTmiParams["PU3VKLT12"] = int(coreMsg.getField("PU3VKLT12"))
+
+        analogTmiParams["OMB1T13"] = int(coreMsg.getField("OMB1T13"))
+        analogTmiParams["OMB2T14"] = int(coreMsg.getField("OMB2T14"))
+        analogTmiParams["OMBVKLT15"] = int(coreMsg.getField("OMBVKLT15"))
+
+        analogTmiParams["BE1VKLT16"] = int(coreMsg.getField("BE1VKLT16"))
+        analogTmiParams["BE2VKLT17"] = int(coreMsg.getField("BE2VKLT17"))
+        analogTmiParams["BE3VKLT18"] = int(coreMsg.getField("BE3VKLT18"))
+
+        analogTmiParams["DTBI1T19"] = int(coreMsg.getField("DTBI1T19"))
+        analogTmiParams["DTBI2T20"] = int(coreMsg.getField("DTBI2T20"))
+        analogTmiParams["DTBI3T21"] = int(coreMsg.getField("DTBI3T21"))
+        analogTmiParams["DTBI4T22"] = int(coreMsg.getField("DTBI4T22"))
+
+        analogTmiParams["DTBS1T23"] = int(coreMsg.getField("DTBS1T23"))
+        analogTmiParams["DTBS2T24"] = int(coreMsg.getField("DTBS2T24"))
+
+        analogTmiParams["DTK1T25"] = int(coreMsg.getField("DTK1T25"))
+        analogTmiParams["DTK2T26"] = int(coreMsg.getField("DTK2T26"))
+
+        analogTmiParams["DTR1T27"] = int(coreMsg.getField("DTR1T27"))
+        analogTmiParams["DTR2T28"] = int(coreMsg.getField("DTR2T28"))
+
+        analogTmiParams["DTKT29"] = int(coreMsg.getField("DTKT29"))
+
+        self.analogTmi = analogTmiParams
+
+        ####################################################################################################################
+
+
+    def handler_SliKpaTmi(self, coreMsg):
+        """
+        """
+        sliKpaTmiParams = sli_kpa_tmi_params.SliKpaTmiParams()
+
+        sliKpaTmiParams["pwrBE_current"] = int(coreMsg.getField("pwrBE_current"))
+        sliKpaTmiParams["pwrBE_voltage"] = int(coreMsg.getField("pwrBE_voltage"))
+        sliKpaTmiParams["pwrBE_state"] = int(coreMsg.getField("pwrBE_state"))
+
+        sliKpaTmiParams["pwrBE_bit_PwrOnLimitEx"] = int(coreMsg.getField("pwrBE_bit_PwrOnLimitEx"))
+        sliKpaTmiParams["pwrBE_bit_Overcurrent"] = int(coreMsg.getField("pwrBE_bit_Overcurrent"))
+        sliKpaTmiParams["pwrBE_bit_Overvoltage"] = int(coreMsg.getField("pwrBE_bit_Overvoltage"))
+        sliKpaTmiParams["pwrBE_bit_PowerGood"] = int(coreMsg.getField("pwrBE_bit_PowerGood"))
+        sliKpaTmiParams["pwrBE_bit_KS"] = int(coreMsg.getField("pwrBE_bit_KS"))
+
+        sliKpaTmiParams["pwrSTR1_current"] = int(coreMsg.getField("pwrSTR1_current"))
+        sliKpaTmiParams["pwrSTR1_voltage"] = int(coreMsg.getField("pwrSTR1_voltage"))
+        sliKpaTmiParams["pwrSTR1_state"] = int(coreMsg.getField("pwrSTR1_state"))
+
+        sliKpaTmiParams["pwrSTR1_bit_PwrOnLimitEx"] = int(coreMsg.getField("pwrSTR1_bit_PwrOnLimitEx"))
+        sliKpaTmiParams["pwrSTR1_bit_Overcurrent"] = int(coreMsg.getField("pwrSTR1_bit_Overcurrent"))
+        sliKpaTmiParams["pwrSTR1_bit_Overvoltage"] = int(coreMsg.getField("pwrSTR1_bit_Overvoltage"))
+        sliKpaTmiParams["pwrSTR1_bit_PowerGood"] = int(coreMsg.getField("pwrSTR1_bit_PowerGood"))
+
+        sliKpaTmiParams["pwrSTR2_current"] = int(coreMsg.getField("pwrSTR2_current"))
+        sliKpaTmiParams["pwrSTR2_voltage"] = int(coreMsg.getField("pwrSTR2_voltage"))
+        sliKpaTmiParams["pwrSTR2_state"] = int(coreMsg.getField("pwrSTR2_state"))
+
+        sliKpaTmiParams["pwrSTR2_bit_PwrOnLimitEx"] = int(coreMsg.getField("pwrSTR2_bit_PwrOnLimitEx"))
+        sliKpaTmiParams["pwrSTR2_bit_Overcurrent"] = int(coreMsg.getField("pwrSTR2_bit_Overcurrent"))
+        sliKpaTmiParams["pwrSTR2_bit_Overvoltage"] = int(coreMsg.getField("pwrSTR2_bit_Overvoltage"))
+        sliKpaTmiParams["pwrSTR2_bit_PowerGood"] = int(coreMsg.getField("pwrSTR2_bit_PowerGood"))
+
+        self.sliKpaTmi = sliKpaTmiParams

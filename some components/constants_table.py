@@ -1,0 +1,27 @@
+# table of constants
+CORE_VER = 0x00000001  # Core version.
+CORE_PORT = 50004  # TCP/IP port for core.
+SW_VER_TYPE_CORE = 0x01 # const to request core version
+SW_VER_TYPE_BE = 0x03 # constant to request me version
+CORE_REQ_TIMEOUT = 20.0 # max time to await confirm
+POWER_OFF = 0
+POWER_ON = 1
+FK_TMI1F23 = 23
+FK_BFKCF48 = 48
+FK_BFKSF49 = 49
+FK_VIP1F1 = 1
+FK_VIP2F3 = 3
+FK_VIP1NF2 = 2
+FK_VIP2NF4 = 4
+FK_BSTRF54 = 54
+FK_BSTOF55 = 55
+FK_BUDRF50 = 50
+FK_BUDOF51 = 51
+FK_BOPRF52 = 52
+FK_BOPOF53 = 53
+FK_RRF7 = 7
+FK_DRF8 = 8
+FK_VOF9 = 9
+FK_OOF10 = 10
+VOF19 = 19
+VO2F20 = 20

@@ -1,0 +1,1 @@
+call robot C:\Users\lacie\PycharmProjects\testLib/someTest.robot

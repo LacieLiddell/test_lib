@@ -1,16 +1,26 @@
-from client import *
-from constats_table import *
-import time
+import sys
+sys.path.append("some components/")
 
+from client import client
+from constants_table import *
+import time
+from generate_config import generate_config
+# global variable for correct tests
+test_lib = client()
+conf = generate_config()
+
+
+#############################################
+# tests
+#############################################
 
 def get_sw_version_test():
-    '''
-    needs like test library method. test suite file call this to connect to core and start second thread,
-    because test suite file ignore __main__ method
-    '''
-    test_lib = connect()
     ver = test_lib.get_sw_version(SW_VER_TYPE_CORE)
-    disconnect(test_lib)
+    return ver
+
+
+def get_be_version_test():
+    ver = test_lib.get_sw_version(SW_VER_TYPE_BE)
     return ver
 
 
@@ -18,60 +28,32 @@ def check_em_power_supply():
     """
     this method check electronic module power supply. library method
     """
-    test_lib = connect()
-    # 1 - on, 0 - off power
     test_lib.setBePower(POWER_ON)
     sliKpaTmi = test_lib.getSliKpaTmi()
     print 'getSliKpaTmi'
-    disconnect(test_lib)
+    print sliKpaTmi
     return sliKpaTmi
 
 
 def check_inside_resources():
-    test_lib = connect()
-    # TODO
-    # FK_TMI1F23
     test_lib.writeFk(FK_TMI1F23)
     analogTmi = test_lib.getAnalogTmi()
-    disconnect(test_lib)
     return analogTmi
 
 
-# def check_bfk(fk):
-#     # TODO
-#     # 48 - FK_BFKCF48, 49 - FK_BFKSF49
-#     test_lib = connect()
-#     test_lib.writeFk(fk)
-#     disconnect(test_lib)
-
-
-# def check_vip_change(fk_init, fk_opposite):
-#     # TODO - fk mast be an argumnt
-#     # 1 - FK_VIP1F1, 3 - FK_VIP2F3
-#     test_lib = connect()
-#     test_lib.writeFk(fk_opposite)
-#     test_lib.writeFk(fk_init)
-#     disconnect(test_lib)
-
 def check_block_change(fk_init, fk_opposite):
-    test_lib = connect()
+    save_conf = test_lib.getAnalogTmi()
     test_lib.writeFk(fk_opposite)
     test_lib.writeFk(fk_init)
     analogTmi = test_lib.getAnalogTmi()
-    disconnect(test_lib)
-    return analogTmi
+    return analogTmi, save_conf
 
 
 def check_vip_turnoff(fk_opposite):
-    # TODO. fk mast be an argument.then it can doing two tests between one
-    # 2 - FK_VIP1NF2
-    # and this method can take argument 4 - FK_VIP2NF4
-    test_lib = connect()
     test_lib.setBePower(POWER_OFF)
     test_lib.writeFk(fk_opposite)
     test_lib.setBePower(POWER_ON)
     analogTmi = test_lib.getAnalogTmi()
-    disconnect(test_lib)
     return analogTmi
 
 
@@ -107,7 +89,6 @@ def check_vip_turnoff(fk_opposite):
 
 def check_change_mode():
     test_lib = connect()
-    # TODO: 7 - FK_RRF7, 8 - FK_DRF8, 9 - FK_VOF9, 10 - FK_OOF10
     test_lib.writeFk(FK_RRF7)
     rrTmi = test_lib.getAnalogTmi()
     test_lib.writeFk(FK_DRF8)
@@ -120,7 +101,11 @@ def check_change_mode():
     test_lib.getAnalogTmi()
     test_lib.writeFk(FK_OOF10)
     test_lib.getAnalogTmi()
-    disconnect(test_lib)
+    return rrTmi, drTmi, voTmi
+
+#############################################
+# /tests
+#############################################
 
 
 # def check_laser_change(fk_init, fk_opposite):
@@ -132,18 +117,61 @@ def check_change_mode():
 #     disconnect(test_lib)
 #     return analogTmi
 
-
+#############################################
+# connect and disconnect
+#############################################
 def connect():
     # create and start second thread for connection to core
-    test_lib = client()
     test_lib.start()
+    time.sleep(1)
     # delay. it need to init socket
-    time.sleep(0.5)
-    return test_lib
+    test_lib.connTkpa()
+    # conf.gen_conf()
 
 
-def disconnect(test_lib):
+
+def disconnect():
+    test_lib.disconnTkpa()
     time.sleep(0.5)
     test_lib.stop()
     test_lib.waitForStop()
     print "stop"
+
+#############################################
+# /connect and disconnect
+#############################################
+
+
+#############################################
+# service procedures
+#############################################
+# def check_me_config():
+#     i dont know .______________.
+
+# def init_me():
+#     test_lib.setBePower(POWER_OFF)
+#     test_lib.writeFk(FK_VIP2NF1)
+#     test_lib.writeFk(FK_VIP2NF4)
+
+
+
+
+#############################################
+# /service procedures
+#############################################
+
+
+if __name__ == '__main__':
+    connect()
+    get_sw_version_test()
+
+    # test_lib.connTkpa()
+    # get_be_version_test(test_lib)
+    # check_em_power_supply(test_lib)
+    # test_lib.setBePower(POWER_OFF)
+    # test_lib.writeFk(FK_VIP1F1)
+    # test_lib.setBePower(POWER_ON)
+    # analogTmi = test_lib.getAnalogTmi()
+    # print analogTmi
+    # test_lib.disconnTkpa()
+    # disconnect(test_lib)
