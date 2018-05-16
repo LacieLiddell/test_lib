@@ -11,22 +11,21 @@ class gui(Frame):
         Frame.__init__(self, root)
         self.s = 'call robot ' + os.getcwd() + '/someTest.robot'
         # self.root = Frame
-        # frame = Frame(root, relief=RAISED, borderwidth=1)
-        # frame.pack(fill= "both", expand=True)
-        # root.pack(fill= 'both', expand=True)
+        frame_b = Frame(root, relief=RAISED, borderwidth=1)
+        frame_b.pack(fill= 'both', expand=True, side = "left")
         self.f = None
         self.var = BooleanVar()
 
-        run_all_btn = Button(root, text="run all")
+        run_all_btn = Button(frame_b, text="run all")
         run_all_btn.bind("<Button-1>", self.bat_test)
-        run_all_btn.pack(side="left", padx=5, pady=5)
+        run_all_btn.pack(side = "left", padx=20, pady=5)
 
         frame = Frame(root, relief=RAISED, borderwidth=1)
         frame.pack(fill="both", expand=True, side="right")
 
         select_btn = Button(frame, text="select tests")
         select_btn.bind("<Button-1>", self.select_test)
-        select_btn.pack(side="right", padx=5, pady=5)
+        select_btn.pack(side="right", padx=20, pady=5)
 
 
     def bat_test(self, event):
@@ -41,19 +40,21 @@ class gui(Frame):
     def select_test(self, event):
         t = Toplevel(root)
         t.geometry('400x300')
-
-        core_version_cb = Checkbutton(t, text="Check core version",
+        frame = Frame(t, relief = RAISED, borderwidth = 1)
+        frame.pack(fill="both", expand=True, side="top")
+        core_version_cb = Checkbutton(frame, text="Check core version",
                          variable=self.var, command = self.onClick)
         # cb.select()
-        core_version_cb.grid(column = 1, row = 1)
-        em_cb = Checkbutton(t, text="Check EM power supply",
+        core_version_cb.grid(column = 0, row = 0)
+        em_cb = Checkbutton(frame, text="Check EM power supply",
                                       variable=self.var, command=self.onClick)
         # cb.select()
-        em_cb.grid(column=1, row=2)
+        em_cb.grid(column=0, row=1)
 
-        run_select = Button(t, text="select tests")
+        run_select = Button(t, text="Run selected")
         run_select.bind("<Button-1>", self.bat_test)
-        run_select.grid(column = 0, row = 5, padx=5, pady=5)
+        # run_select.grid(column = 0, row = 5, padx=5, pady=5)
+        run_select.pack(side="right", padx=5, pady=5)
 
 
     def onClick(self):
@@ -77,6 +78,6 @@ class gui(Frame):
 #     root = Tk()
 #     root.geometry( '200x150' )
 #     app = gui(root)
-#     parser.parse()
+#     # parser.parse()
 #     root.mainloop()
 

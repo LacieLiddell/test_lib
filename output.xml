@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generated="20180510 09:37:27.383" generator="Robot 3.0.3 (Python 2.7.14 on win32)">
+<robot generated="20180516 20:54:58.218" generator="Robot 3.0.3 (Python 2.7.14 on win32)">
 <suite source="C:\Users\lacie\PycharmProjects\testLib\sometest.robot" id="s1" name="Sometest">
 <kw type="setup" name="Connect" library="library">
-<msg timestamp="20180510 09:37:28.472" level="INFO">connect
+<msg timestamp="20180516 20:54:59.596" level="INFO">connect
 conn tkpa
 Open TKPA connection request:</msg>
-<status status="PASS" endtime="20180510 09:37:28.472" starttime="20180510 09:37:27.457"></status>
+<status status="PASS" endtime="20180516 20:54:59.596" starttime="20180516 20:54:58.569"></status>
 </kw>
 <test id="s1-t1" name="Check core version">
 <kw type="setup" name="Log To Console" library="BuiltIn">
@@ -13,34 +13,34 @@ Open TKPA connection request:</msg>
 <arguments>
 <arg>connect</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.474" starttime="20180510 09:37:28.473"></status>
+<status status="PASS" endtime="20180516 20:54:59.597" starttime="20180516 20:54:59.597"></status>
 </kw>
 <kw name="Get Sw Version Test" library="library">
 <assign>
 <var>${getConfirm}</var>
 </assign>
-<msg timestamp="20180510 09:37:28.497" level="INFO">Get SW version request:
+<msg timestamp="20180516 20:54:59.621" level="INFO">Get SW version request:
 	verType: SW_VER_TYPE_CORE
 
 send request
 get request
 65553</msg>
-<msg timestamp="20180510 09:37:28.498" level="INFO">${getConfirm} = 65553</msg>
-<status status="PASS" endtime="20180510 09:37:28.498" starttime="20180510 09:37:28.474"></status>
+<msg timestamp="20180516 20:54:59.621" level="INFO">${getConfirm} = 65553</msg>
+<status status="PASS" endtime="20180516 20:54:59.621" starttime="20180516 20:54:59.598"></status>
 </kw>
 <kw name="Convert To Integer" library="BuiltIn">
 <doc>Converts the given item to an integer number.</doc>
 <arguments>
 <arg>${getConfirm}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.499" starttime="20180510 09:37:28.498"></status>
+<status status="PASS" endtime="20180516 20:54:59.622" starttime="20180516 20:54:59.622"></status>
 </kw>
 <kw name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>${getConfirm}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.500" starttime="20180510 09:37:28.499"></status>
+<status status="PASS" endtime="20180516 20:54:59.622" starttime="20180516 20:54:59.622"></status>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <doc>Fails if the given objects are unequal.</doc>
@@ -48,19 +48,19 @@ get request
 <arg>${65553}</arg>
 <arg>${getConfirm}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.503" starttime="20180510 09:37:28.501"></status>
+<status status="PASS" endtime="20180516 20:54:59.623" starttime="20180516 20:54:59.623"></status>
 </kw>
 <kw type="teardown" name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>end</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.504" starttime="20180510 09:37:28.504"></status>
+<status status="PASS" endtime="20180516 20:54:59.623" starttime="20180516 20:54:59.623"></status>
 </kw>
 <tags>
 <tag>smoke</tag>
 </tags>
-<status status="PASS" endtime="20180510 09:37:28.505" critical="yes" starttime="20180510 09:37:28.472"></status>
+<status status="PASS" endtime="20180516 20:54:59.624" critical="yes" starttime="20180516 20:54:59.596"></status>
 </test>
 <test id="s1-t2" name="Check be version">
 <kw type="setup" name="Log To Console" library="BuiltIn">
@@ -68,34 +68,34 @@ get request
 <arguments>
 <arg>connect</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.508" starttime="20180510 09:37:28.508"></status>
+<status status="PASS" endtime="20180516 20:54:59.625" starttime="20180516 20:54:59.625"></status>
 </kw>
 <kw name="Get Be Version Test" library="library">
 <assign>
 <var>${getConfirm}</var>
 </assign>
-<msg timestamp="20180510 09:37:28.536" level="INFO">Get SW version request:
+<msg timestamp="20180516 20:54:59.671" level="INFO">Get SW version request:
 	verType: SW_VER_TYPE_BE
 
 send request
 get request
 68551683</msg>
-<msg timestamp="20180510 09:37:28.536" level="INFO">${getConfirm} = 68551683</msg>
-<status status="PASS" endtime="20180510 09:37:28.536" starttime="20180510 09:37:28.509"></status>
+<msg timestamp="20180516 20:54:59.671" level="INFO">${getConfirm} = 68551683</msg>
+<status status="PASS" endtime="20180516 20:54:59.671" starttime="20180516 20:54:59.625"></status>
 </kw>
 <kw name="Convert To Integer" library="BuiltIn">
 <doc>Converts the given item to an integer number.</doc>
 <arguments>
 <arg>${getConfirm}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.537" starttime="20180510 09:37:28.537"></status>
+<status status="PASS" endtime="20180516 20:54:59.671" starttime="20180516 20:54:59.671"></status>
 </kw>
 <kw name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>${getConfirm}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.538" starttime="20180510 09:37:28.537"></status>
+<status status="PASS" endtime="20180516 20:54:59.672" starttime="20180516 20:54:59.672"></status>
 </kw>
 <kw name="Should Be Equal" library="BuiltIn">
 <doc>Fails if the given objects are unequal.</doc>
@@ -103,149 +103,118 @@ get request
 <arg>${68551683}</arg>
 <arg>${getConfirm}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.539" starttime="20180510 09:37:28.538"></status>
+<status status="PASS" endtime="20180516 20:54:59.673" starttime="20180516 20:54:59.672"></status>
 </kw>
 <kw type="teardown" name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>end</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.539" starttime="20180510 09:37:28.539"></status>
+<status status="PASS" endtime="20180516 20:54:59.674" starttime="20180516 20:54:59.673"></status>
 </kw>
 <tags>
 <tag>smoke</tag>
 </tags>
-<status status="PASS" endtime="20180510 09:37:28.540" critical="yes" starttime="20180510 09:37:28.507"></status>
+<status status="PASS" endtime="20180516 20:54:59.674" critical="yes" starttime="20180516 20:54:59.624"></status>
 </test>
-<test id="s1-t3" name="Check EM Power">
-<kw type="setup" name="Log To Console" library="BuiltIn">
-<doc>Logs the given message to the console.</doc>
+<test id="s1-t3" name="Check VIP1 Change">
+<kw type="setup" name="Set Config" library="library">
 <arguments>
-<arg>connect</arg>
+<arg>${FK_VIP1F1}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.542" starttime="20180510 09:37:28.541"></status>
+<status status="PASS" endtime="20180516 20:54:59.696" starttime="20180516 20:54:59.675"></status>
 </kw>
-<kw name="Check Em Power Supply" library="library">
-<doc>this method check electronic module power supply. library method</doc>
-<assign>
-<var>${getConfirm}</var>
-</assign>
-<msg timestamp="20180510 09:37:28.573" level="INFO">getSliKpaTmi
-None</msg>
-<msg timestamp="20180510 09:37:28.573" level="INFO">${getConfirm} = None</msg>
-<status status="PASS" endtime="20180510 09:37:28.573" starttime="20180510 09:37:28.542"></status>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<doc>Logs the given message to the console.</doc>
-<arguments>
-<arg>${getConfirm}</arg>
-</arguments>
-<status status="PASS" endtime="20180510 09:37:28.575" starttime="20180510 09:37:28.574"></status>
-</kw>
-<kw type="teardown" name="Log To Console" library="BuiltIn">
-<doc>Logs the given message to the console.</doc>
-<arguments>
-<arg>end</arg>
-</arguments>
-<status status="PASS" endtime="20180510 09:37:28.575" starttime="20180510 09:37:28.575"></status>
-</kw>
-<tags>
-<tag>smoke</tag>
-</tags>
-<status status="PASS" endtime="20180510 09:37:28.576" critical="yes" starttime="20180510 09:37:28.541"></status>
-</test>
-<test id="s1-t4" name="Check VIP Change">
-<kw type="setup" name="Log To Console" library="BuiltIn">
-<doc>Logs the given message to the console.</doc>
-<arguments>
-<arg>connect</arg>
-</arguments>
-<status status="PASS" endtime="20180510 09:37:28.577" starttime="20180510 09:37:28.577"></status>
-</kw>
+<kw name="Block Change to ${FK_VIP2F3} from ${FK_VIP1F1} and check VIP1PT1">
 <kw name="Check Block Change" library="library">
 <arguments>
-<arg>${FK_VIP2F3}</arg>
-<arg>${FK_VIP1F1}</arg>
+<arg>${fkOpposite}</arg>
+<arg>${fkInit}</arg>
+<arg>${tmi}</arg>
 </arguments>
 <assign>
 <var>${getTMI}</var>
 <var>${getState}</var>
 </assign>
-<msg timestamp="20180510 09:37:28.647" level="INFO">${getTMI} = None</msg>
-<msg timestamp="20180510 09:37:28.647" level="INFO">${getState} = None</msg>
-<status status="PASS" endtime="20180510 09:37:28.647" starttime="20180510 09:37:28.578"></status>
+<msg timestamp="20180516 20:55:39.846" level="INFO">Analog TMI VIP1PT1 :  0 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  1 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  2 sec:  2.28515625 V
+tmi:  VIP1PT1 , fk:  3
+Analog TMI VIP1PT1 :  0 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  1 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  2 sec:  2.28515625 V
+0
+tmi:  VIP1PT1 , fk:  1
+Analog TMI VIP1PT1 :  0 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  1 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  2 sec:  2.28515625 V
+0
+Analog TMI VIP1PT1 :  0 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  1 sec:  2.28515625 V
+Analog TMI VIP1PT1 :  2 sec:  2.28515625 V</msg>
+<msg timestamp="20180516 20:55:39.846" level="INFO">${getTMI} = 2.28515625</msg>
+<msg timestamp="20180516 20:55:39.846" level="INFO">${getState} = 2.28515625</msg>
+<status status="PASS" endtime="20180516 20:55:39.846" starttime="20180516 20:54:59.697"></status>
 </kw>
 <kw name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>${getTMI}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.648" starttime="20180510 09:37:28.647"></status>
+<status status="PASS" endtime="20180516 20:55:39.847" starttime="20180516 20:55:39.846"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${getTMI}</arg>
+</arguments>
+<status status="PASS" endtime="20180516 20:55:39.848" starttime="20180516 20:55:39.847"></status>
 </kw>
 <kw name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>${getState}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.649" starttime="20180510 09:37:28.648"></status>
+<status status="PASS" endtime="20180516 20:55:39.848" starttime="20180516 20:55:39.848"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${getState}</arg>
+</arguments>
+<status status="PASS" endtime="20180516 20:55:39.849" starttime="20180516 20:55:39.848"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${getState}</arg>
+<arg>${getTMI}</arg>
+</arguments>
+<status status="PASS" endtime="20180516 20:55:39.849" starttime="20180516 20:55:39.849"></status>
+</kw>
+<status status="PASS" endtime="20180516 20:55:39.849" starttime="20180516 20:54:59.697"></status>
 </kw>
 <kw type="teardown" name="Log To Console" library="BuiltIn">
 <doc>Logs the given message to the console.</doc>
 <arguments>
 <arg>end</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.649" starttime="20180510 09:37:28.649"></status>
+<status status="PASS" endtime="20180516 20:55:39.850" starttime="20180516 20:55:39.850"></status>
 </kw>
 <tags>
 <tag>smoke</tag>
 </tags>
-<status status="PASS" endtime="20180510 09:37:28.650" critical="yes" starttime="20180510 09:37:28.576"></status>
+<status status="PASS" endtime="20180516 20:55:39.850" critical="yes" starttime="20180516 20:54:59.675"></status>
 </test>
-<test id="s1-t5" name="Check BFK Change">
-<kw type="setup" name="Log To Console" library="BuiltIn">
-<doc>Logs the given message to the console.</doc>
+<test id="s1-t4" name="Check VIP2 Change">
+<kw type="setup" name="Set Config" library="library">
 <arguments>
-<arg>connect</arg>
+<arg>${FK_VIP2F3}</arg>
 </arguments>
-<status status="PASS" endtime="20180510 09:37:28.651" starttime="20180510 09:37:28.651"></status>
+<status status="PASS" endtime="20180516 20:55:39.867" starttime="20180516 20:55:39.852"></status>
 </kw>
-<kw name="Block Change to &quot;${fkOpposite}&quot; from &quot;${fkInit}&quot;">
+<kw name="Block Change to ${FK_VIP1F1} from ${FK_VIP2F3} and check VIP2PT2">
+<kw name="Check Block Change" library="library">
 <arguments>
-<arg>${FK_BFKSF49} ${FK_BFKCF48}</arg>
-</arguments>
-<msg timestamp="20180510 09:37:28.652" level="FAIL">Keyword 'Block Change to "${fkOpposite}" from "${fkInit}"' expected 0 arguments, got 1.</msg>
-<status status="FAIL" endtime="20180510 09:37:28.652" starttime="20180510 09:37:28.652"></status>
-</kw>
-<kw type="teardown" name="Log To Console" library="BuiltIn">
-<doc>Logs the given message to the console.</doc>
-<arguments>
-<arg>end</arg>
-</arguments>
-<status status="PASS" endtime="20180510 09:37:28.653" starttime="20180510 09:37:28.652"></status>
-</kw>
-<tags>
-<tag>smoke</tag>
-</tags>
-<status status="FAIL" endtime="20180510 09:37:28.653" critical="yes" starttime="20180510 09:37:28.650">Keyword 'Block Change to "${fkOpposite}" from "${fkInit}"' expected 0 arguments, got 1.</status>
-</test>
-<kw type="teardown" name="Disconnect" library="library">
-<msg timestamp="20180510 09:37:29.175" level="INFO">stop</msg>
-<status status="PASS" endtime="20180510 09:37:29.176" starttime="20180510 09:37:28.654"></status>
-</kw>
-<status status="FAIL" endtime="20180510 09:37:29.176" starttime="20180510 09:37:27.385"></status>
-</suite>
-<statistics>
-<total>
-<stat fail="1" pass="4">Critical Tests</stat>
-<stat fail="1" pass="4">All Tests</stat>
-</total>
-<tag>
-<stat fail="1" pass="4">smoke</stat>
-</tag>
-<suite>
-<stat fail="1" id="s1" name="Sometest" pass="4">Sometest</stat>
-</suite>
-</statistics>
-<errors>
-</errors>
-</robot>
+<arg>${fkOpposite}</arg>
+<arg>${fkInit}</arg>
+<arg>${tmi}</arg>
